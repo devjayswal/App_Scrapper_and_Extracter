@@ -264,23 +264,23 @@ class TestAppium(unittest.TestCase):
         except Exception as e:
             print(f"An error occurred: {e}")
     
-    def te1st_invoice_loop(self) -> None:
+    def test_invoice_loop(self) -> None:
         try:
             self.driver.press_keycode(3)
             self.driver.implicitly_wait(5)
             zomato_element = self.driver.find_element(AppiumBy.XPATH, '//android.widget.TextView[@text="Zomato"]')
             zomato_element.click()
             time.sleep(4)
-            self.driver.swipe(350, 2000, 350, 1350, 1000)
             
-            self.driver.tap([(260, 1200)], 100)
+            print("Selecting dish")
+            self.select_dish()
+            print("Dish selected")
             
+            for _ in range(3):
+                self.driver.swipe(350, 2000, 350, 350, 1000)
             
             time.sleep(2)
-            self.driver.swipe(350, 2000, 350, 1350, 1000)
-            self.driver.swipe(350, 2000, 350, 1350, 1000)
-            self.driver.swipe(350, 2000, 350, 1350, 1000)
-            self.driver.swipe(350, 2000, 350, 1350, 1000)
+            
 
             add_button = self.driver.find_element(AppiumBy.ID,"com.application.zomato:id/text_view_title")
             add_button.click()
@@ -338,7 +338,7 @@ class TestAppium(unittest.TestCase):
             
     def te1st_page_source(self) -> None:
         page_soucre = self.driver.page_source
-        with open('invoice_page.xml', 'w') as f:
+        with open('brand_pack_page_source.xml', 'w') as f:
             f.write(page_soucre)
            
             
@@ -426,14 +426,27 @@ class TestAppium(unittest.TestCase):
 
         return data
 
+    def select_dish(self):
+        try:
+            picking_dish = self.driver.find_element(AppiumBy.XPATH,  "//android.widget.TextView[@text='NEAR & FAST']")
+            # picking_dish = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("com.application.zomato:id/ztag_text").text("NEAR &amp; FAST")')
+            location = picking_dish.location
+            print(location)
+            x = location['x']
+            y = location['y']
+            self.driver.tap([(x, y)], 300)
+        except:
+            self.driver.swipe(350, 2000, 350, 1000, 1000)
+            print("No near and fast")
+            self.select_dish()
  
 def suite():
     suite = unittest.TestSuite()
-    # suite.addTest(TestAppium('test_invoice_loop'))
+    suite.addTest(TestAppium('test_invoice_loop'))
     # suite.addTest(TestAppium('test_page_source'))
     # suite.addTest(TestAppium('test_resto_brand_app'))
     # suite.addTest(TestAppium('test_payment_coupons'))
-    suite.addTest(TestAppium('test_brand_pack'))
+    # suite.addTest(TestAppium('test_brand_pack'))
     return suite
 
 
