@@ -145,6 +145,38 @@ class TestAppium(unittest.TestCase):
         except Exception as e:
             print(f"An error occurred: {e}")
 
+    def test_brand_pack(self) -> None:
+        try:
+            print("Brand pack")
+            self.driver.press_keycode(3)
+            self.driver.implicitly_wait(5)
+            zomato_element = self.driver.find_element(AppiumBy.XPATH, '//android.widget.TextView[@text="Zomato"]')
+            zomato_element.click()
+            time.sleep(4)
+            time.sleep(2)
+            
+            # self.driver.swipe(500, 2500, 500, 1000, 1000)
+            time.sleep(1)
+            
+            self.driver.tap([(550, 2600)], 100)
+            self.driver.swipe(350, 1800, 350, 1350, 900)
+            scroll_count = 5
+            for _ in range(scroll_count):
+                page_source = self.driver.page_source
+                self.extract_brand_pack(page_source)
+                time.sleep(1)
+                self.driver.swipe(350, 2600, 350, 600, 1000)
+                time.sleep(1)
+            
+            
+            
+            self.driver.back()
+            self.driver.back()
+            self.driver.press_keycode(3)
+            
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
     def test_payment_coupons(self) -> None:
         try:
             
@@ -287,7 +319,7 @@ class TestAppium(unittest.TestCase):
                     time.sleep(1)
                     self.driver.swipe( 350, 1350, 350, 2000, 1000)
                     self.driver.swipe( 350, 1350, 350, 2000, 1000)
-                    button_add_item = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().className("android.widget.TextView").text("")')
+                    button_add_item = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,'new UiSelector().resourceId("com.application.zomato:id/button_add")')
                     button_add_item.click()
                     time.sleep(5)
                 except:
@@ -296,8 +328,7 @@ class TestAppium(unittest.TestCase):
             time.sleep(1)
             self.driver.back()
             self.driver.back()
-            
-            self.driver.tap([(700,2800)], 100)
+            self.driver.press_keycode(3)
             time.sleep(1)
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -305,7 +336,7 @@ class TestAppium(unittest.TestCase):
     def extract_payment_coupons(self, page_source):
         return []
             
-    def test_page_source(self) -> None:
+    def te1st_page_source(self) -> None:
         page_soucre = self.driver.page_source
         with open('invoice_page.xml', 'w') as f:
             f.write(page_soucre)
@@ -367,6 +398,8 @@ class TestAppium(unittest.TestCase):
         print(extracted_data)
         return extracted_data
 
+    def extract_brand_pack(self, page_source):
+        return []
 
     def extract_dish_data(self, page_source):
         soup = BeautifulSoup(page_source, 'xml')
@@ -396,10 +429,11 @@ class TestAppium(unittest.TestCase):
  
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(TestAppium('test_invoice_loop'))
+    # suite.addTest(TestAppium('test_invoice_loop'))
     # suite.addTest(TestAppium('test_page_source'))
     # suite.addTest(TestAppium('test_resto_brand_app'))
     # suite.addTest(TestAppium('test_payment_coupons'))
+    suite.addTest(TestAppium('test_brand_pack'))
     return suite
 
 
