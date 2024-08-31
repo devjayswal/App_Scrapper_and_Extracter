@@ -41,7 +41,7 @@ class TestAppium(unittest.TestCase):
             # self.driver.quit()
             pass
 
-    def te1st_resto_brand_app(self) -> None:
+    def test_resto_brand_app(self) -> None:
         try:
 
             self.driver.press_keycode(3)
@@ -145,7 +145,7 @@ class TestAppium(unittest.TestCase):
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    def te1st_brand_pack(self) -> None:
+    def test_brand_pack(self) -> None:
         try:
             print("Brand pack")
             self.driver.press_keycode(3)
@@ -177,7 +177,7 @@ class TestAppium(unittest.TestCase):
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    def te1st_payment_coupons(self) -> None:
+    def test_payment_coupons(self) -> None:
         try:
             
             self.driver.press_keycode(3)
@@ -264,7 +264,7 @@ class TestAppium(unittest.TestCase):
         except Exception as e:
             print(f"An error occurred: {e}")
     
-    def tes1t_invoice_loop(self) -> None:
+    def test_invoice_loop(self) -> None:
         try:
             self.driver.press_keycode(3)
             self.driver.implicitly_wait(5)
@@ -300,6 +300,7 @@ class TestAppium(unittest.TestCase):
             number_of_clicks = 10
             for _ in range(number_of_clicks):
                 try:
+                    p1 = self.driver.page_source
                     print("Invoice loop")
                     self.driver.swipe(350, 2000, 350, 1350, 1000)
                     self.driver.swipe(350, 2000, 350, 1350, 1000)
@@ -311,10 +312,10 @@ class TestAppium(unittest.TestCase):
                     
                     self.driver.tap([(x, y)], 100)
                     time.sleep(1)
-                    page_source = self.driver.page_source
-                    with open('invoice_page.xml', 'w') as f:
-                        f.write(page_source)
+                    p2 = self.driver.page_source
+                   
                     time.sleep(1)
+                    self.extract_dish_data
                     self.driver.back()
                     time.sleep(1)
                     self.driver.swipe( 350, 1350, 350, 2000, 1000)
@@ -439,11 +440,13 @@ class TestAppium(unittest.TestCase):
             self.driver.swipe(350, 2000, 350, 1000, 1000)
             print("No near and fast")
             self.select_dish()
+    
+    
  
 def suite():
     suite = unittest.TestSuite()
-    # suite.addTest(TestAppium('test_invoice_loop'))
-    suite.addTest(TestAppium('test_page_source'))
+    suite.addTest(TestAppium('test_invoice_loop'))
+    # suite.addTest(TestAppium('test_page_source'))
     # suite.addTest(TestAppium('test_resto_brand_app'))
     # suite.addTest(TestAppium('test_payment_coupons'))
     # suite.addTest(TestAppium('test_brand_pack'))
